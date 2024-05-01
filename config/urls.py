@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from drf_spectacular.views import (
@@ -23,7 +23,19 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from rest_framework.routers import DefaultRouter
+from apps.library.views import (
+    AuthorViewSet,
+    CategoryViewSet,
+    BookViewSet,
+    LibraryStatView,
+)
 
+
+router = DefaultRouter()
+router.register("authors", AuthorViewSet, "author-view")
+router.register("categories", CategoryViewSet, "category-view")
+router.register("books", BookViewSet, "books-view")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +44,10 @@ urlpatterns = [
     path('', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api-schema/', SpectacularAPIView.as_view(), name='schema'),
     path('docs/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+
+    # API urls
+    path('api/v1/', include(router.urls)),
+    path('library-stat', LibraryStatView.as_view()),
 ]
 
 # Static and media file urls
