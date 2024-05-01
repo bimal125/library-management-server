@@ -47,7 +47,7 @@ urlpatterns = [
 
     # API urls
     path('api/v1/', include(router.urls)),
-    path('library-stat', LibraryStatView.as_view()),
+    path('api/v1/library-stat/', LibraryStatView.as_view()),
 ]
 
 # Static and media file urls
