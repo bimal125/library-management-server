@@ -10,6 +10,7 @@ from .serializers import (
     CategorySerializer,
     BookSerializer,
 )
+from .filters import BookFilter
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
@@ -33,6 +34,7 @@ class BookViewSet(viewsets.ModelViewSet):
     A viewset for viewing and editing book instances.
     """
     serializer_class = BookSerializer
+    filterset_class = BookFilter
     queryset = Book.objects.select_related('category', 'author')
 
 
